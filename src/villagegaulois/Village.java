@@ -90,15 +90,17 @@ public class Village {
 			int numEtalProd = 0;
 			for(int i = 0; i<etals.length; i++) {
 				if(etals[i].contientProduit(produit)) {
-					etals[i].afficherEtal();
 					numEtalProd++;
 				}
 			}
 			
 			Etal[] occupe = new Etal[numEtalProd];
 			
-			for(int i = 0; i<occupe.length; i++) {
-				//A FINIR
+			for(int i = 0, y=0; i<etals.length; i++) {
+				if(etals[i].contientProduit(produit)) {
+					occupe[y]=etals[i];
+					y++;
+				}
 			}
 			
 			return occupe;
@@ -135,14 +137,50 @@ public class Village {
 		}
 		
 	}
+
+	public String rechercherVendeursProduit(String produit) {
+		Etal[] etalP = marche.trouverEtals(produit);
+		StringBuilder stringR = new StringBuilder();
+		if(etalP.length == 0) {
+			stringR.append("Il n'y a pas de vendeur qui propose des fleurs au marché.");
+		}else if(etalP.length == 1) {
+			stringR.append("Seul le vendeur " + etalP[0].getVendeur().toString() + " propose des fleurs au marché.");
+		}else {
+			stringR.append("Les vendeurs qui proposent des fleurs sont : " );
+			for (int i=0;i<etalP.length;i++) {
+				stringR.append("- " + etalP[i].getVendeur().toString()+ "\n" );
+			}
+		}
+		return stringR.toString();
+	}
+
+	public String installerVendeur(Gaulois nom, String produit, int nbProduit) {
+		StringBuilder stringR = new StringBuilder();
+		int i  = marche.trouverEtalLibre();
+		marche.utiliserEtal(i, nom, produit, nbProduit);
+		stringR.append( nom + " cherche un endroit pour vendre " + nbProduit 
+				+ produit + ".\r\n" + "Le vendeur" + nom + " vend des fleurs à l'étal n°" + i);
+		
+		return stringR.toString();
+	}
+
+	public Etal rechercherEtal(Gaulois nom) {
+		Etal recherche = marche.trouverVendeur(nom);
+		return recherche;
+	}
+
+	public String partirVendeur(Gaulois nom) {
+		StringBuilder stringR = new StringBuilder();
+		Etal etalV = marche.trouverVendeur(nom);
+		stringR.append("Le vendeur" + nom + "quitte son étal, il a vendu" + "parmi les" + "qu'il voulait vendre.");
 	
-	
-	public static void main(String[] args) {
-		//TEST
+		return stringR.toString();
+	}
+
+	public String afficherMarche() {
+		return marche.afficherMarche();
 	}
 	
+	
+	
 }
-/*
-
-
-*/
