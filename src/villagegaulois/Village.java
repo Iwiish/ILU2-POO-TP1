@@ -45,18 +45,22 @@ public class Village {
 	}
 
 	public String afficherVillageois() {
-		StringBuilder chaine = new StringBuilder();
-		if (nbVillageois < 1) {
-			chaine.append("Il n'y a encore aucun habitant au village du chef "
-					+ chef.getNom() + ".\n");
-		} else {
-			chaine.append("Au village du chef " + chef.getNom()
-					+ " vivent les légendaires gaulois :\n");
-			for (int i = 0; i < nbVillageois; i++) {
-				chaine.append("- " + villageois[i].getNom() + "\n");
+		if(this.chef == null) {
+			throw new VillageSansChefException("Le village n'a pas de chef");
+		}else {
+			StringBuilder chaine = new StringBuilder();
+			if (nbVillageois < 1) {
+				chaine.append("Il n'y a encore aucun habitant au village du chef "
+						+ chef.getNom() + ".\n");
+			} else {
+				chaine.append("Au village du chef " + chef.getNom()
+						+ " vivent les légendaires gaulois :\n");
+				for (int i = 0; i < nbVillageois; i++) {
+					chaine.append("- " + villageois[i].getNom() + "\n");
+				}
 			}
+			return chaine.toString();
 		}
-		return chaine.toString();
 	}
 	
 	private static  class Marche{
@@ -168,8 +172,7 @@ public class Village {
 	}
 
 	public Etal rechercherEtal(Gaulois gaulois) {
-		Etal recherche = marche.trouverVendeur(gaulois);
-		return recherche;
+		return marche.trouverVendeur(gaulois);
 	}
 
 	public String partirVendeur(Gaulois gaulois) {
