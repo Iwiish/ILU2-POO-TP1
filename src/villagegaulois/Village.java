@@ -124,11 +124,11 @@ public class Village {
 				if(etals[i]==null || (etals[i] != null && !etals[i].isEtalOccupe())) {
 					nbEtalVide++;
 				}else {
-					stringR.append(etals[i].afficherEtal() + "_");
+					stringR.append(etals[i].afficherEtal());
 				}
 			}
 			if(nbEtalVide > 0) {
-				stringR.append("Il reste " + nbEtalVide + " étals non utilisés dans le marché.\n");
+				stringR.append("Il reste " + nbEtalVide + " étals non utilisés dans le marché.\r\n");
 			}
 			return stringR.toString();
 		}
@@ -139,13 +139,13 @@ public class Village {
 		Etal[] etalP = marche.trouverEtals(produit);
 		StringBuilder stringR = new StringBuilder();
 		if(etalP.length == 0) {
-			stringR.append("Il n'y a pas de vendeur qui propose des " + produit + "au marché.");
+			stringR.append("Il n'y a pas de vendeur qui propose des " + produit + " au marché.\r\n");
 		}else if(etalP.length == 1) {
-			stringR.append("Seul le vendeur " + etalP[0].getVendeur().getNom() + " propose des " + produit + " au marché.");
+			stringR.append("Seul le vendeur " + etalP[0].getVendeur().getNom() + " propose des " + produit + " au marché.\r\n");
 		}else {
-			stringR.append("Les vendeurs qui proposent des " + produit + " sont : " );
+			stringR.append("Les vendeurs qui proposent des " + produit + " sont : \r\n" );
 			for (int i=0;i<etalP.length;i++) {
-				stringR.append("-" + etalP[i].getVendeur().toString()+ "\n" );
+				stringR.append("-" + etalP[i].getVendeur().getNom()+ "\r\n" );
 			}
 		}
 		return stringR.toString();
@@ -155,12 +155,12 @@ public class Village {
 		StringBuilder stringR = new StringBuilder();
 		int i  = marche.trouverEtalLibre();
 		if(i==-1) {
-			stringR.append("Il n'y a pas de place.\n");
+			stringR.append("Il n'y a pas de place.\r\n");
 			return stringR.toString();
 		}else {
 			marche.utiliserEtal(i, gaulois, produit, nbProduit);
 			stringR.append( gaulois.getNom() + " cherche un endroit pour vendre " + nbProduit 
-					+ " " + produit + ".\r\n" + "Le vendeur " + gaulois.getNom() + " vend des " + produit + " à l'étal n°" + i);
+					+ " " + produit + ".\r\n" + "Le vendeur " + gaulois.getNom() + " vend des " + produit + " à l'étal n°" + (i+1) + "\r\n");
 			
 			return stringR.toString();
 		}
@@ -178,8 +178,12 @@ public class Village {
 	}
 
 	public String afficherMarche() {
-		return marche.afficherMarche();
+		StringBuilder stringR = new StringBuilder();
+		stringR.append("Le marché du village " + "'" + nom + "'" + " possède plusieurs étals : \r\n" ); 
+		stringR.append(marche.afficherMarche());
+		return stringR.toString();
 	}
+	
 	
 	
 	
